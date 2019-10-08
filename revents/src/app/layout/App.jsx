@@ -9,6 +9,7 @@ import PeopleDashboard from "../../features/user/PeopleDashboard/PeopleDashboard
 import UserDetailedPage from "../../features/user/UserDetailed/UserDetailedPage";
 import SettingsDashboard from "../../features/user/Settings/SettingsDashboard";
 import EventsForm from "../../features/events/EventForm/EventForm";
+import TestComponent from "../../features/testarea/TestComponent";
 
 const routes = () => {
   return (
@@ -21,6 +22,7 @@ const routes = () => {
         <Route path="/people/:id" component={UserDetailedPage} />
         <Route path="/settings" component={SettingsDashboard} />
         <Route path="/createEvent" component={EventsForm} />
+        <Route path="/test" component={TestComponent} />
       </Container>
     </>
   );
