@@ -10,20 +10,28 @@ import UserDetailedPage from "../../features/user/UserDetailed/UserDetailedPage"
 import SettingsDashboard from "../../features/user/Settings/SettingsDashboard";
 import EventsForm from "../../features/events/EventForm/EventForm";
 
+const routes = () => {
+  return (
+    <>
+      <NavBar />
+      <Container className="main">
+        <Route path="/events" component={EventDashboard} />
+        <Route path="/events/:id" component={EventDetailedPage} />
+        <Route path="/people" component={PeopleDashboard} />
+        <Route path="/people/:id" component={UserDetailedPage} />
+        <Route path="/settings" component={SettingsDashboard} />
+        <Route path="/createEvent" component={EventsForm} />
+      </Container>
+    </>
+  );
+};
+
 class App extends Component {
   render() {
     return (
       <>
-        <NavBar />
-        <Container className="main">
-          <Route path="/" exact component={HomePage} />
-          <Route path="/events" component={EventDashboard} />
-          <Route path="/events/:id" component={EventDetailedPage} />
-          <Route path="/people" component={PeopleDashboard} />
-          <Route path="/people/:id" component={UserDetailedPage} />
-          <Route path="/settings" component={SettingsDashboard} />
-          <Route path="/createEvent" component={EventsForm} />
-        </Container>
+        <Route path="/" exact component={HomePage} />
+        <Route path="/(.+)" render={() => routes()} />
       </>
     );
   }
