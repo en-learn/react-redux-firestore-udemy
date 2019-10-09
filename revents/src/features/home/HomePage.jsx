@@ -21,7 +21,7 @@ const HomePage = ({ history }) => {
           />
           Re-vents
         </Header>
-        <Button onClick={() => history.push("/event")} size="huge" inverted>
+        <Button onClick={() => history.push("/events")} size="huge" inverted>
           Get started
           <Icon name="right arrow" inverted />
         </Button>
