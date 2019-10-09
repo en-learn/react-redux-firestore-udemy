@@ -4,10 +4,17 @@ import { connect } from "react-redux";
 import EventList from "../EventList/EventList";
 import EventForm from "../EventForm/EventForm";
 import cuid from "cuid";
+import { createEvent, deleteEvent, updateEvent } from "../eventActions";
 
 const mapStateToProps = state => ({
   events: state.events,
 });
+
+const mapDispatchToProps = {
+  createEvent,
+  deleteEvent,
+  updateEvent,
+};
 
 class EventDashboard extends Component {
   state = {
@@ -31,8 +38,8 @@ class EventDashboard extends Component {
   handleCreateEvent = newEvent => {
     newEvent.id = cuid();
     newEvent.hostPhotoURL = "/assets/user.png";
+    this.props.createEvent(newEvent);
     this.setState(({ events }) => ({
-      events: [...events, newEvent],
       isOpen: false,
     }));
   };
@@ -45,23 +52,15 @@ class EventDashboard extends Component {
   };
 
   handleUpdateEvent = updatedEvent => {
+    this.props.updateEvent(updatedEvent);
     this.setState(({ events }) => ({
-      events: events.map(event => {
-        if (event.id === updatedEvent.id) {
-          return { ...updatedEvent };
-        } else {
-          return event;
-        }
-      }),
       isOpen: false,
       selectedEvent: null,
     }));
   };
 
   handleDeleteEvent = id => {
-    this.setState(({ events }) => ({
-      events: events.filter(event => event.id !== id),
-    }));
+    this.props.deleteEvent(id);
   };
 
   render() {
@@ -97,4 +96,7 @@ class EventDashboard extends Component {
   }
 }
 
-export default connect(mapStateToProps)(EventDashboard);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EventDashboard);
