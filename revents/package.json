@@ -16,7 +16,7 @@
     "react-infinite-scroller": "^1.2.4",
     "react-lazyload": "^2.5.0",
     "react-places-autocomplete": "^7.2.1",
-    "react-redux": "^5.1.1",
+    "react-redux": "^5.1.2",
     "react-redux-firebase": "^2.2.6",
     "react-redux-toastr": "^7.5.1",
     "react-router-dom": "^5.0.0",
@@ -53,6 +53,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-redux": "^7.1.4",
     "@types/react-redux-toastr": "^7.4.1",
     "@types/react-router-dom": "^4.3.5",
     "redux-devtools-extension": "^2.13.8",

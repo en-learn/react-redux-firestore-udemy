@@ -1,11 +1,17 @@
-import React from 'react'
+import React from "react";
+import { connect } from "react-redux";
 
-const TestComponent = () => {
+const mapStateToProps = state => ({
+  data: state.data,
+});
+
+const TestComponent = props => {
   return (
     <div>
-     this is a test
+      <h1>Test Component</h1>
+      <h3>The answer is: {props.data}</h3>
     </div>
-  )
-}
+  );
+};
 
-export default TestComponent
+export default connect(mapStateToProps)(TestComponent);
