@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { reduxForm, Field } from "redux-form";
-import { Segment, Form, Button } from "semantic-ui-react";
-import { createEvent, updateEvent } from "../eventActions";
 import cuid from "cuid";
+import { Segment, Form, Button } from "semantic-ui-react";
+
+import { createEvent, updateEvent } from "../eventActions";
+import TextInput from "../../../app/common/form/TextInput";
 
 const mapStateToProps = (state, ownProps) => {
   const eventId = ownProps.match.params.id;
@@ -69,7 +71,7 @@ class EventForm extends Component {
     return (
       <Segment>
         <Form onSubmit={this.handleFormSubmit} autoComplete="off">
-          <Field name="title" component="input" placeholder="Event title" />
+          <Field name="title" component={TextInput} placeholder="Event title" />
           <Form.Field>
             <label>Event Date</label>
             <input
