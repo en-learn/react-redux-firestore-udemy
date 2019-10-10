@@ -2,7 +2,7 @@
   "editor.formatOnSave": true,
   "eslint.validate": [
     "javascript",
-    "javsscriptreact",
+    "javascriptreact",
     "typescript",
     "typescriptreact"
   ]
