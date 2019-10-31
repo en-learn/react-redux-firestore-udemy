@@ -13,6 +13,7 @@ import {
 
 import { createEvent, updateEvent } from "../eventActions";
 import TextInput from "../../../app/common/form/TextInput";
+import PlaceInput from "../../../app/common/form/PlaceInput";
 import TextArea from "../../../app/common/form/TextArea";
 import SelectInput from "../../../app/common/form/SelectInput";
 import DateInput from "../../../app/common/form/DateInput";
@@ -113,12 +114,12 @@ class EventForm extends Component {
               <Header sub color="teal" content="Event Location Details" />
               <Field
                 name="city"
-                component={TextInput}
+                component={PlaceInput}
                 placeholder="Event City"
               />
               <Field
                 name="venue"
-                component={TextInput}
+                component={PlaceInput}
                 placeholder="Event Venue"
               />
               <Field
