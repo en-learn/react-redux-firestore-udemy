@@ -1,37 +1,51 @@
-import React from "react";
+import React, { Component } from "react";
 import { connect } from "react-redux";
+import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
 import { incrementCounter, decrementCounter } from "./testActions";
 import { Button } from "semantic-ui-react";
 import TestPlaceInput from "./TestPlaceInput";
 import SimpleMap from "./SimpleMap";
 
 const mapStateToProps = state => ({
-  data: state.test.data,
+  data: state.test.data
 });
 
 const mapDispatchToProps = {
   incrementCounter,
-  decrementCounter,
+  decrementCounter
 };
 
-const TestComponent = props => {
-  const { data, incrementCounter, decrementCounter } = props;
-  return (
-    <div>
-      <h1>Test Component</h1>
-      <h3>The answer is: {data}</h3>
-      <Button onClick={incrementCounter} positive content="Increment" />
-      <Button onClick={decrementCounter} negative content="Decrement" />
-      <br />
-      <br />
-      <TestPlaceInput />
-      <br />
-      <SimpleMap />
-    </div>
-  );
-};
+class TestComponent extends Component {
+  state = {
+    latlng: {
+      lat: 59.95,
+      lng: 30.33
+    }
+  };
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TestComponent);
+  handleSelect = address => {
+    geocodeByAddress(address)
+      .then(results => getLatLng(results[0]))
+      .then(latLng => this.setState({ latlng: latLng }))
+      .catch(error => console.error("Error", error));
+  };
+
+  render() {
+    const { data, incrementCounter, decrementCounter } = this.props;
+    return (
+      <div>
+        <h1>Test Component</h1>
+        <h3>The answer is: {data}</h3>
+        <Button onClick={incrementCounter} positive content="Increment" />
+        <Button onClick={decrementCounter} negative content="Decrement" />
+        <br />
+        <br />
+        <TestPlaceInput selectAddress={this.handleSelect} />
+        <br />
+        <SimpleMap key={this.state.latlng.lat} latlng={this.state.latlng} />
+      </div>
+    );
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(TestComponent);
