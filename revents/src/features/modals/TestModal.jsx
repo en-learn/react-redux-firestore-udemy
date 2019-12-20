@@ -1,9 +1,15 @@
 import React from "react";
 import { Modal } from "semantic-ui-react";
+import { connect } from "react-redux";
+import { closeModal } from "./modalActions";
 
-const TestModal = () => {
+const mapDispatchToProps = {
+  closeModal
+};
+
+const TestModal = ({ closeModal }) => {
   return (
-    <Modal closeIcon="close" open={true}>
+    <Modal closeIcon="close" open={true} onClose={closeModal}>
       <Modal.Header>Test Modal</Modal.Header>
       <Modal.Content>
         <Modal.Description>
@@ -14,4 +20,4 @@ const TestModal = () => {
   );
 };
 
-export default TestModal;
+export default connect(null, mapDispatchToProps)(TestModal);

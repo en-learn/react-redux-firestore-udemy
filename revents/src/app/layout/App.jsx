@@ -10,6 +10,7 @@ import UserDetailedPage from "../../features/user/UserDetailed/UserDetailedPage"
 import SettingsDashboard from "../../features/user/Settings/SettingsDashboard";
 import EventsForm from "../../features/events/EventForm/EventForm";
 import TestComponent from "../../features/testarea/TestComponent";
+import ModalManager from "../../features/modals/ModalManager";
 
 const routes = props => {
   return (
@@ -37,6 +38,7 @@ class App extends Component {
   render() {
     return (
       <>
+        <ModalManager />
         <Route path="/" exact component={HomePage} />
         <Route path="/(.+)" render={() => routes(this.props)} />
       </>
