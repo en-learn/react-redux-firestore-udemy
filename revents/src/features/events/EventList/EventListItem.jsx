@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Segment, Item, Icon, List, Button } from "semantic-ui-react";
 import { Link } from "react-router-dom";
 import EventListAttendee from "./EventListAttendee";
+import { format, parseISO } from "date-fns";
 
 class EventListItem extends Component {
   render() {
@@ -21,7 +22,8 @@ class EventListItem extends Component {
         </Segment>
         <Segment>
           <span>
-            <Icon name="clock" /> {event.date} |
+            <Icon name="clock" /> {format(parseISO(event.date), "EEEE do LLL")}{" "}
+            at {format(parseISO(event.date), "h:mm a")} |
             <Icon name="marker" /> {event.venue}
           </span>
         </Segment>
