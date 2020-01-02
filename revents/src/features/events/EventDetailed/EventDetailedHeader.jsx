@@ -1,11 +1,11 @@
-import React from "react";
-import { Segment, Item, Image, Button, Header } from "semantic-ui-react";
-import { Link } from "react-router-dom";
-import { format, parseISO } from "date-fns";
+import React from "react"
+import { Segment, Item, Image, Button, Header } from "semantic-ui-react"
+import { Link } from "react-router-dom"
+import { format, parseISO } from "date-fns"
 
 const eventImageStyle = {
-  filter: "brightness(30%)"
-};
+  filter: "brightness(30%)",
+}
 
 const eventImageTextStyle = {
   position: "absolute",
@@ -13,8 +13,8 @@ const eventImageTextStyle = {
   left: "5%",
   width: "100%",
   height: "auto",
-  color: "white"
-};
+  color: "white",
+}
 
 const EventDetailedHeader = ({ event }) => {
   return (
@@ -60,7 +60,7 @@ const EventDetailedHeader = ({ event }) => {
         </Button>
       </Segment>
     </Segment.Group>
-  );
-};
+  )
+}
 
-export default EventDetailedHeader;
+export default EventDetailedHeader

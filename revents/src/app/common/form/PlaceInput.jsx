@@ -1,6 +1,6 @@
-import React from "react";
-import { Form, Label, Segment, List } from "semantic-ui-react";
-import PlacesAutocomplete from "react-places-autocomplete";
+import React from "react"
+import { Form, Label, Segment, List } from "semantic-ui-react"
+import PlacesAutocomplete from "react-places-autocomplete"
 
 const PlaceInput = ({
   input: { value, onChange, onBlur },
@@ -55,7 +55,7 @@ const PlaceInput = ({
         </Form.Field>
       )}
     </PlacesAutocomplete>
-  );
-};
+  )
+}
 
-export default PlaceInput;
+export default PlaceInput

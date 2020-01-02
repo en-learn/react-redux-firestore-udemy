@@ -10,7 +10,7 @@ const sampleData = [
     venue: "Empire State Building, 5th Avenue, New York, NY, USA",
     venueLatLng: {
       lat: 40.7484405,
-      lng: -73.98566440000002
+      lng: -73.98566440000002,
     },
     hostedBy: "Bob",
     hostPhotoURL: "https://randomuser.me/api/portraits/men/20.jpg",
@@ -18,14 +18,14 @@ const sampleData = [
       {
         id: "a",
         name: "Bob",
-        photoURL: "https://randomuser.me/api/portraits/men/20.jpg"
+        photoURL: "https://randomuser.me/api/portraits/men/20.jpg",
       },
       {
         id: "b",
         name: "Tom",
-        photoURL: "https://randomuser.me/api/portraits/men/22.jpg"
-      }
-    ]
+        photoURL: "https://randomuser.me/api/portraits/men/22.jpg",
+      },
+    ],
   },
   {
     id: "2",
@@ -38,7 +38,7 @@ const sampleData = [
     venue: "Punch & Judy, Henrietta Street, London, UK",
     venueLatLng: {
       lat: 51.5118074,
-      lng: -0.12300089999996544
+      lng: -0.12300089999996544,
     },
     hostedBy: "Tom",
     hostPhotoURL: "https://randomuser.me/api/portraits/men/22.jpg",
@@ -46,15 +46,15 @@ const sampleData = [
       {
         id: "a",
         name: "Bob",
-        photoURL: "https://randomuser.me/api/portraits/men/20.jpg"
+        photoURL: "https://randomuser.me/api/portraits/men/20.jpg",
       },
       {
         id: "b",
         name: "Tom",
-        photoURL: "https://randomuser.me/api/portraits/men/22.jpg"
-      }
-    ]
-  }
-];
+        photoURL: "https://randomuser.me/api/portraits/men/22.jpg",
+      },
+    ],
+  },
+]
 
-export default sampleData;
+export default sampleData

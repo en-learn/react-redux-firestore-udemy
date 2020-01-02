@@ -1,5 +1,5 @@
-import React from "react";
-import { Header, Segment } from "semantic-ui-react";
+import React from "react"
+import { Header, Segment } from "semantic-ui-react"
 
 const EventActivity = () => {
   return (
@@ -9,7 +9,7 @@ const EventActivity = () => {
         <p>Recent activity</p>
       </Segment>
     </>
-  );
-};
+  )
+}
 
-export default EventActivity;
+export default EventActivity

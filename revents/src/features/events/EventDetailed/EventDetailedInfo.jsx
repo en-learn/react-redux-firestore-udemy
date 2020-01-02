@@ -1,11 +1,11 @@
-import React, { useState } from "react";
-import { Segment, Grid, Icon, Button } from "semantic-ui-react";
-import EventDetailedMap from "./EventDetailedMap";
-import { format, parseISO } from "date-fns";
+import React, { useState } from "react"
+import { Segment, Grid, Icon, Button } from "semantic-ui-react"
+import EventDetailedMap from "./EventDetailedMap"
+import { format, parseISO } from "date-fns"
 
 const EventDetailedInfo = ({ event }) => {
-  const [isMapOpen, showMapToggle] = useState(false);
-  const { description, venue } = event;
+  const [isMapOpen, showMapToggle] = useState(false)
+  const { description, venue } = event
   return (
     <Segment.Group>
       <Segment attached="top">
@@ -58,7 +58,7 @@ const EventDetailedInfo = ({ event }) => {
         />
       )}
     </Segment.Group>
-  );
-};
+  )
+}
 
-export default EventDetailedInfo;
+export default EventDetailedInfo

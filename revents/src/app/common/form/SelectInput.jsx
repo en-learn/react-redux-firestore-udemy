@@ -1,5 +1,5 @@
-import React from "react";
-import { Form, Label, Select } from "semantic-ui-react";
+import React from "react"
+import { Form, Label, Select } from "semantic-ui-react"
 
 const TextSelect = ({
   input,
@@ -24,7 +24,7 @@ const TextSelect = ({
         </Label>
       )}
     </Form.Field>
-  );
-};
+  )
+}
 
-export default TextSelect;
+export default TextSelect

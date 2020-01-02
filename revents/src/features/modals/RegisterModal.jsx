@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { Modal } from "semantic-ui-react";
-import { connect } from "react-redux";
+import React, { Component } from "react"
+import { Modal } from "semantic-ui-react"
+import { connect } from "react-redux"
 
-import RegisterForm from "../auth/Register/RegisterForm";
-import { closeModal } from "./modalActions";
+import RegisterForm from "../auth/Register/RegisterForm"
+import { closeModal } from "./modalActions"
 
-const actions = { closeModal };
+const actions = { closeModal }
 
 class RegisterModal extends Component {
   render() {
@@ -18,8 +18,8 @@ class RegisterModal extends Component {
           </Modal.Description>
         </Modal.Content>
       </Modal>
-    );
+    )
   }
 }
 
-export default connect(null, actions)(RegisterModal);
+export default connect(null, actions)(RegisterModal)

@@ -1,5 +1,5 @@
-import React from "react";
-import { Form, Label } from "semantic-ui-react";
+import React from "react"
+import { Form, Label } from "semantic-ui-react"
 
 const TextInput = ({
   input,
@@ -17,7 +17,7 @@ const TextInput = ({
         </Label>
       )}
     </Form.Field>
-  );
-};
+  )
+}
 
-export default TextInput;
+export default TextInput

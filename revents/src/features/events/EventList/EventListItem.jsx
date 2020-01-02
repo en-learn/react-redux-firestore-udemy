@@ -1,12 +1,12 @@
-import React, { Component } from "react";
-import { Segment, Item, Icon, List, Button } from "semantic-ui-react";
-import { Link } from "react-router-dom";
-import EventListAttendee from "./EventListAttendee";
-import { format, parseISO } from "date-fns";
+import React, { Component } from "react"
+import { Segment, Item, Icon, List, Button } from "semantic-ui-react"
+import { Link } from "react-router-dom"
+import EventListAttendee from "./EventListAttendee"
+import { format, parseISO } from "date-fns"
 
 class EventListItem extends Component {
   render() {
-    const { event, deleteEvent } = this.props;
+    const { event, deleteEvent } = this.props
     return (
       <Segment.Group>
         <Segment>
@@ -54,7 +54,7 @@ class EventListItem extends Component {
           />
         </Segment>
       </Segment.Group>
-    );
+    )
   }
 }
-export default EventListItem;
+export default EventListItem

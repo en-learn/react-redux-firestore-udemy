@@ -1,4 +1,4 @@
-import React from 'react'
+import React from "react"
 
 const UserDetailedPage = () => {
   return (
@@ -9,4 +9,3 @@ const UserDetailedPage = () => {
 }
 
 export default UserDetailedPage
-

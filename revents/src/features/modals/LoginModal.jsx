@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { Modal } from "semantic-ui-react";
-import { connect } from "react-redux";
+import React, { Component } from "react"
+import { Modal } from "semantic-ui-react"
+import { connect } from "react-redux"
 
-import LoginForm from "../auth/Login/LoginForm";
-import { closeModal } from "./modalActions";
+import LoginForm from "../auth/Login/LoginForm"
+import { closeModal } from "./modalActions"
 
-const actions = { closeModal };
+const actions = { closeModal }
 
 class LoginModal extends Component {
   render() {
@@ -18,8 +18,8 @@ class LoginModal extends Component {
           </Modal.Description>
         </Modal.Content>
       </Modal>
-    );
+    )
   }
 }
 
-export default connect(null, actions)(LoginModal);
+export default connect(null, actions)(LoginModal)

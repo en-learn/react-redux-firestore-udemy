@@ -1,38 +1,38 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { geocodeByAddress, getLatLng } from "react-places-autocomplete";
-import { incrementAsync, decrementAsync } from "./testActions";
-import { Button } from "semantic-ui-react";
-import TestPlaceInput from "./TestPlaceInput";
-import SimpleMap from "./SimpleMap";
-import { openModal } from "../modals/modalActions";
+import React, { Component } from "react"
+import { connect } from "react-redux"
+import { geocodeByAddress, getLatLng } from "react-places-autocomplete"
+import { incrementAsync, decrementAsync } from "./testActions"
+import { Button } from "semantic-ui-react"
+import TestPlaceInput from "./TestPlaceInput"
+import SimpleMap from "./SimpleMap"
+import { openModal } from "../modals/modalActions"
 
 const mapStateToProps = state => ({
   data: state.test.data,
   loading: state.async.loading,
-  buttonName: state.async.elementName
-});
+  buttonName: state.async.elementName,
+})
 
 const mapDispatchToProps = {
   incrementAsync,
   decrementAsync,
-  openModal
-};
+  openModal,
+}
 
 class TestComponent extends Component {
   state = {
     latlng: {
       lat: 59.95,
-      lng: 30.33
-    }
-  };
+      lng: 30.33,
+    },
+  }
 
   handleSelect = address => {
     geocodeByAddress(address)
       .then(results => getLatLng(results[0]))
       .then(latLng => this.setState({ latlng: latLng }))
-      .catch(error => console.error("Error", error));
-  };
+      .catch(error => console.error("Error", error))
+  }
 
   render() {
     const {
@@ -41,8 +41,8 @@ class TestComponent extends Component {
       decrementAsync,
       openModal,
       loading,
-      buttonName
-    } = this.props;
+      buttonName,
+    } = this.props
     return (
       <div>
         <h1>Test Component</h1>
@@ -72,8 +72,8 @@ class TestComponent extends Component {
         <br />
         <SimpleMap key={this.state.latlng.lat} latlng={this.state.latlng} />
       </div>
-    );
+    )
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TestComponent);
+export default connect(mapStateToProps, mapDispatchToProps)(TestComponent)

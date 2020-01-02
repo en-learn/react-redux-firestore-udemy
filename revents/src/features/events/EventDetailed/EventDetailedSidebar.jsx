@@ -1,8 +1,8 @@
-import React from "react";
-import { Segment, Item, Label } from "semantic-ui-react";
+import React from "react"
+import { Segment, Item, Label } from "semantic-ui-react"
 
 const EventDetailedSidebar = ({ attendees }) => {
-  const isHost = false;
+  const isHost = false
   return (
     <>
       <Segment
@@ -41,7 +41,7 @@ const EventDetailedSidebar = ({ attendees }) => {
         </Item.Group>
       </Segment>
     </>
-  );
-};
+  )
+}
 
-export default EventDetailedSidebar;
+export default EventDetailedSidebar

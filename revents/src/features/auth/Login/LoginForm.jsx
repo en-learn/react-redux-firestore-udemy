@@ -1,13 +1,13 @@
-import React from "react";
-import { Form, Segment, Button } from "semantic-ui-react";
-import { Field, reduxForm } from "redux-form";
-import TextInput from "../../../app/common/form/TextInput";
-import { login } from "../authActions";
-import { connect } from "react-redux";
+import React from "react"
+import { Form, Segment, Button } from "semantic-ui-react"
+import { Field, reduxForm } from "redux-form"
+import TextInput from "../../../app/common/form/TextInput"
+import { login } from "../authActions"
+import { connect } from "react-redux"
 
 const mapDispatchToProps = {
-  login
-};
+  login,
+}
 
 const LoginForm = ({ login, handleSubmit }) => {
   return (
@@ -30,10 +30,10 @@ const LoginForm = ({ login, handleSubmit }) => {
         </Button>
       </Segment>
     </Form>
-  );
-};
+  )
+}
 
 export default connect(
   null,
-  mapDispatchToProps
-)(reduxForm({ form: "LoginForm" })(LoginForm));
+  mapDispatchToProps,
+)(reduxForm({ form: "LoginForm" })(LoginForm))

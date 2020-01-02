@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 import {
   Segment,
   Container,
@@ -6,7 +6,7 @@ import {
   Image,
   Button,
   Icon,
-} from "semantic-ui-react";
+} from "semantic-ui-react"
 
 const HomePage = ({ history }) => {
   return (
@@ -27,7 +27,7 @@ const HomePage = ({ history }) => {
         </Button>
       </Container>
     </Segment>
-  );
-};
+  )
+}
 
-export default HomePage;
+export default HomePage

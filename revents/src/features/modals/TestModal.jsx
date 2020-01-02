@@ -1,11 +1,11 @@
-import React from "react";
-import { Modal } from "semantic-ui-react";
-import { connect } from "react-redux";
-import { closeModal } from "./modalActions";
+import React from "react"
+import { Modal } from "semantic-ui-react"
+import { connect } from "react-redux"
+import { closeModal } from "./modalActions"
 
 const mapDispatchToProps = {
-  closeModal
-};
+  closeModal,
+}
 
 const TestModal = ({ closeModal }) => {
   return (
@@ -17,7 +17,7 @@ const TestModal = ({ closeModal }) => {
         </Modal.Description>
       </Modal.Content>
     </Modal>
-  );
-};
+  )
+}
 
-export default connect(null, mapDispatchToProps)(TestModal);
+export default connect(null, mapDispatchToProps)(TestModal)

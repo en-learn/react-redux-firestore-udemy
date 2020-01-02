@@ -1,6 +1,6 @@
-import React from "react";
-import { Menu, Header } from "semantic-ui-react";
-import { NavLink } from "react-router-dom";
+import React from "react"
+import { Menu, Header } from "semantic-ui-react"
+import { NavLink } from "react-router-dom"
 
 const SettingsNav = () => {
   return (
@@ -30,7 +30,7 @@ const SettingsNav = () => {
         </Menu.Item>
       </Menu>
     </>
-  );
-};
+  )
+}
 
-export default SettingsNav;
+export default SettingsNav

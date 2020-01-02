@@ -1,25 +1,25 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Grid } from "semantic-ui-react";
+import React from "react"
+import { connect } from "react-redux"
+import { Grid } from "semantic-ui-react"
 
-import EventDetailedHeader from "./EventDetailedHeader";
-import EventDetailedInfo from "./EventDetailedInfo";
-import EventDetailedChat from "./EventDetailedChat";
-import EventDetailedSidebar from "./EventDetailedSidebar";
+import EventDetailedHeader from "./EventDetailedHeader"
+import EventDetailedInfo from "./EventDetailedInfo"
+import EventDetailedChat from "./EventDetailedChat"
+import EventDetailedSidebar from "./EventDetailedSidebar"
 
 const mapStateToProps = (state, ownProps) => {
-  const eventId = ownProps.match.params.id;
+  const eventId = ownProps.match.params.id
 
-  let event = {};
+  let event = {}
 
   if (eventId && state.events.length > 0) {
-    event = state.events.filter(event => event.id === eventId)[0];
+    event = state.events.filter(event => event.id === eventId)[0]
   }
 
   return {
     event,
-  };
-};
+  }
+}
 
 const EventDetailedPage = ({ event }) => {
   return (
@@ -33,7 +33,7 @@ const EventDetailedPage = ({ event }) => {
         <EventDetailedSidebar attendees={event.attendees} />
       </Grid.Column>
     </Grid>
-  );
-};
+  )
+}
 
-export default connect(mapStateToProps)(EventDetailedPage);
+export default connect(mapStateToProps)(EventDetailedPage)

@@ -1,6 +1,6 @@
-import React from "react";
-import { Menu, Dropdown, Image } from "semantic-ui-react";
-import { Link } from "react-router-dom";
+import React from "react"
+import { Menu, Dropdown, Image } from "semantic-ui-react"
+import { Link } from "react-router-dom"
 
 const SignedInMenu = ({ signOut, currentUser }) => {
   return (
@@ -22,7 +22,7 @@ const SignedInMenu = ({ signOut, currentUser }) => {
         </Dropdown.Menu>
       </Dropdown>
     </Menu.Item>
-  );
-};
+  )
+}
 
-export default SignedInMenu;
+export default SignedInMenu

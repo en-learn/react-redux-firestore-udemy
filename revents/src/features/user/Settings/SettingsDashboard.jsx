@@ -1,11 +1,11 @@
-import React from "react";
-import { Grid } from "semantic-ui-react";
-import { Route, Redirect, Switch } from "react-router-dom";
-import SettingsNav from "./SettingsNav";
-import BasicPage from "./BasicPage";
-import AboutPage from "./AboutPage";
-import PhotosPage from "./PhotosPage";
-import AccountPage from "./AccountPage";
+import React from "react"
+import { Grid } from "semantic-ui-react"
+import { Route, Redirect, Switch } from "react-router-dom"
+import SettingsNav from "./SettingsNav"
+import BasicPage from "./BasicPage"
+import AboutPage from "./AboutPage"
+import PhotosPage from "./PhotosPage"
+import AccountPage from "./AccountPage"
 
 const SettingsDashboard = () => {
   return (
@@ -23,7 +23,7 @@ const SettingsDashboard = () => {
         <SettingsNav />
       </Grid.Column>
     </Grid>
-  );
-};
+  )
+}
 
-export default SettingsDashboard;
+export default SettingsDashboard
