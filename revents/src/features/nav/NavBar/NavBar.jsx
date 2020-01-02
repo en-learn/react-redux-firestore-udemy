@@ -5,16 +5,18 @@ import { Link, NavLink, withRouter } from "react-router-dom";
 import SignedOutMenu from "../Menus/SignedOutMenu";
 import SignedInMenu from "../Menus/SignedInMenu";
 import { openModal } from "../../modals/modalActions";
+import { logout } from "../../auth/authActions";
 
 const mapDispatchToProps = {
-  openModal
+  openModal,
+  logout
 };
 
-class NavBar extends Component {
-  state = {
-    authenticated: false
-  };
+const mapStateToProps = state => ({
+  auth: state.auth
+});
 
+class NavBar extends Component {
   handleSignIn = () => {
     this.props.openModal("LoginModal");
   };
@@ -24,12 +26,14 @@ class NavBar extends Component {
   };
 
   handleSignOut = () => {
-    this.setState({ authenticated: false });
+    this.props.logout();
     this.props.history.push("/");
   };
 
   render() {
-    const { authenticated } = this.state;
+    const {
+      auth: { authenticated, currentUser }
+    } = this.props;
     return (
       <Menu inverted fixed="top">
         <Container>
@@ -51,7 +55,10 @@ class NavBar extends Component {
             />
           </Menu.Item>
           {authenticated ? (
-            <SignedInMenu signOut={this.handleSignOut} />
+            <SignedInMenu
+              signOut={this.handleSignOut}
+              currentUser={currentUser}
+            />
           ) : (
             <SignedOutMenu
               signIn={this.handleSignIn}
@@ -64,4 +71,4 @@ class NavBar extends Component {
   }
 }
 
-export default withRouter(connect(null, mapDispatchToProps)(NavBar));
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(NavBar));

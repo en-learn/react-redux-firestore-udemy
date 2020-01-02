@@ -8,7 +8,7 @@ const initialState = {
 
 const loginUser = (state, payload) => {
   return {
-    auth: true,
+    authenticated: true,
     currentUser: payload.creds.email
   };
 };
