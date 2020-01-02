@@ -9,7 +9,8 @@ import { openModal } from "../modals/modalActions";
 
 const mapStateToProps = state => ({
   data: state.test.data,
-  loading: state.async.loading
+  loading: state.async.loading,
+  buttonName: state.async.elementName
 });
 
 const mapDispatchToProps = {
@@ -39,23 +40,26 @@ class TestComponent extends Component {
       incrementAsync,
       decrementAsync,
       openModal,
-      loading
+      loading,
+      buttonName
     } = this.props;
     return (
       <div>
         <h1>Test Component</h1>
         <h3>The answer is: {data}</h3>
         <Button
-          onClick={incrementAsync}
+          name="increment"
+          onClick={e => incrementAsync(e.target.name)}
           positive
           content="Increment"
-          loading={loading}
+          loading={buttonName === "increment" && loading}
         />
         <Button
-          onClick={decrementAsync}
+          name="decrement"
+          onClick={e => decrementAsync(e.target.name)}
           negative
           content="Decrement"
-          loading={loading}
+          loading={buttonName === "decrement" && loading}
         />
         <Button
           onClick={() => openModal("TestModal", { data: 42 })}
