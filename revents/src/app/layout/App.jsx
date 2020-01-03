@@ -21,7 +21,7 @@ const routes = props => {
           <Route exact path="/events" component={EventDashboard} />
           <Route path="/events/:id" component={EventDetailedPage} />
           <Route exact path="/people" component={PeopleDashboard} />
-          <Route path="/people/:id" component={UserDetailedPage} />
+          <Route path="/profile/:id" component={UserDetailedPage} />
           <Route path="/settings" component={SettingsDashboard} />
           <Route
             path={["/createEvent", "/manage/:id"]}
