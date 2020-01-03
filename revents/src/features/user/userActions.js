@@ -27,7 +27,7 @@ export const uploadProfileImage = (file, fileName) => async (
 ) => {
   const firebase = getFirebase()
   const firestore = getFirestore()
-  const user = firebase.auth.currentUser
+  const user = firebase.auth().currentUser
   const path = `${user.uid}/user_images`
   const options = {
     name: fileName,
@@ -36,9 +36,9 @@ export const uploadProfileImage = (file, fileName) => async (
   try {
     dispatch(asyncActionStart())
     // upload the file to firebase storage
-    let updloadedFile = await firebase.uploadFile(path, file, null, options)
+    let uploadedFile = await firebase.uploadFile(path, file, null, options)
     // get url of image
-    let downloadURL = await updloadedFile.uploadTaskSnapshot.ref.getDownloadURL()
+    let downloadURL = await uploadedFile.uploadTaskSnapshot.ref.getDownloadURL()
     // get userdoc
     let userDoc = await firestore.get(`users/${user.uid}`)
     // check if user has photo, if not update profile
