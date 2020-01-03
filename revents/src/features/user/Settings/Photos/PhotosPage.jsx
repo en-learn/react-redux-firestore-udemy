@@ -9,9 +9,11 @@ import {
   Card,
 } from "semantic-ui-react"
 import DropzoneInput from "./DropzoneInput"
+import CropperInput from "./CropperInput"
 
 const PhotosPage = () => {
   const [files, setFiles] = useState([])
+  const [image, setImage] = useState(null)
 
   useEffect(() => {
     return () => {
@@ -31,14 +33,21 @@ const PhotosPage = () => {
         <Grid.Column width={1} />
         <Grid.Column width={4}>
           <Header sub color="teal" content="Step 2 - Resize image" />
+          {files.length > 0 && (
+            <CropperInput setImage={setImage} imagePreview={files[0].preview} />
+          )}
         </Grid.Column>
         <Grid.Column width={1} />
         <Grid.Column width={4}>
           <Header sub color="teal" content="Step 3 - Preview & Upload" />
           {files.length > 0 && (
-            <Image
-              src={files[0].preview}
-              style={{ minHeight: "200px", minWidth: "200px" }}
+            <div
+              className="img-preview"
+              style={{
+                minHeight: "200px",
+                minWidth: "200px",
+                overflow: "hidden",
+              }}
             />
           )}
         </Grid.Column>
