@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { connect } from "react-redux"
+import { compose } from "redux"
+import { firestoreConnect } from "react-redux-firebase"
 import {
   Image,
   Segment,
@@ -14,9 +16,23 @@ import CropperInput from "./CropperInput"
 import { uploadProfileImage } from "../../userActions"
 import { toastr } from "react-redux-toastr"
 
+const query = auth => [
+  {
+    collection: "users",
+    doc: auth.uid,
+    subcollections: [{ collection: "photos" }],
+    storeAs: "photos",
+  },
+]
+
 const actions = {
   uploadProfileImage,
 }
+
+const mapState = state => ({
+  auth: state.firebase.auth,
+  profile: state.firebase.profile,
+})
 
 const PhotosPage = ({ uploadProfileImage }) => {
   const [files, setFiles] = useState([])
@@ -114,4 +130,7 @@ const PhotosPage = ({ uploadProfileImage }) => {
   )
 }
 
-export default connect(null, actions)(PhotosPage)
+export default compose(
+  connect(mapState, actions),
+  firestoreConnect(({ auth }) => query(auth)),
+)(PhotosPage)
