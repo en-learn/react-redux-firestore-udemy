@@ -1,13 +1,13 @@
 import React from "react"
-import { Button, Grid, Segment } from "semantic-ui-react"
+import { Grid } from "semantic-ui-react"
 import UserDetailedHeader from "./UserDetailedHeader"
-import UserDetailedInfo from "./UserDetailedInfo"
+import UserDetailedSidebar from "./UserDetailedSidebar"
+import UserDetailedDescription from "./UserDetailedDescription"
 import UserDetailedPhotos from "./UserDetailedPhotos"
 import UserDetailedEvents from "./UserDetailedEvents"
 import { compose } from "redux"
 import { connect } from "react-redux"
 import { firestoreConnect } from "react-redux-firebase"
-import { Link } from "react-router-dom"
 
 const query = auth => [
   {
@@ -28,21 +28,9 @@ const UserDetailedPage = ({ profile, photos }) => {
   return (
     <Grid>
       <UserDetailedHeader profile={profile} />
-      <UserDetailedInfo profile={profile} />
-
-      <Grid.Column width={4}>
-        <Segment>
-          <Button
-            as={Link}
-            to={"/settings"}
-            color="teal"
-            fluid
-            basic
-            content="Edit Profile"
-          />
-        </Segment>
-      </Grid.Column>
-      {photos && <UserDetailedPhotos photos={photos} />}
+      <UserDetailedDescription profile={profile} />
+      <UserDetailedSidebar />
+      {photos && photos.length > 0 && <UserDetailedPhotos photos={photos} />}
       <UserDetailedEvents />
     </Grid>
   )

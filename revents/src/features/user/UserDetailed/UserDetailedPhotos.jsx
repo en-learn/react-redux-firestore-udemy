@@ -8,7 +8,8 @@ const UserDetailedPhotos = ({ photos }) => {
         <Header icon="image" content="Photos" />
 
         <Image.Group size="small">
-          {photos && photos.map(photo => <Image src={photo.url} />)}
+          {photos &&
+            photos.map(photo => <Image key={photo.id} src={photo.url} />)}
         </Image.Group>
       </Segment>
     </Grid.Column>
