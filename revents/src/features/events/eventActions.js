@@ -30,6 +30,7 @@ export const createEvent = event => {
         host: true,
       })
       toastr.success("Success!", "Event has been created")
+      return createdEvent
     } catch (error) {
       toastr.error("Oops", "Something went wrong")
     }
