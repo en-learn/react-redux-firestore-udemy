@@ -23,10 +23,11 @@ const mapState = (state, ownProps) => {
 
   return {
     event,
+    auth: state.firebase.auth,
   }
 }
 
-const EventDetailedPage = ({ event, firestore, match, history }) => {
+const EventDetailedPage = ({ event, firestore, match, history, auth }) => {
   useEffect(() => {
     const fetchEvent = async () => {
       const event = await firestore.get(`events/${match.params.id}`)
@@ -39,11 +40,13 @@ const EventDetailedPage = ({ event, firestore, match, history }) => {
   }, [firestore, match.params.id, history])
 
   const attendees = event && event.attendees && objectToArray(event.attendees)
+  const isHost = event.hostUid === auth.uid
+  const isGoing = attendees && attendees.some(a => a.id === auth.uid)
 
   return (
     <Grid>
       <Grid.Column width={10}>
-        <EventDetailedHeader event={event} />
+        <EventDetailedHeader event={event} isGoing={isGoing} isHost={isHost} />
         <EventDetailedInfo event={event} />
         <EventDetailedChat />
       </Grid.Column>
