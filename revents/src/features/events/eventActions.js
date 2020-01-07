@@ -1,9 +1,4 @@
-import {
-  CREATE_EVENT,
-  UPDATE_EVENT,
-  DELETE_EVENT,
-  FETCH_EVENTS,
-} from "./eventConstants"
+import { UPDATE_EVENT, DELETE_EVENT, FETCH_EVENTS } from "./eventConstants"
 import {
   asyncActionStart,
   asyncActionFinish,
