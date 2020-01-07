@@ -14,7 +14,7 @@ import {
 } from "revalidate"
 import { toastr } from "react-redux-toastr"
 
-import { createEvent, updateEvent } from "../eventActions"
+import { createEvent, updateEvent, cancelToggle } from "../eventActions"
 import TextInput from "../../../app/common/form/TextInput"
 import PlaceInput from "../../../app/common/form/PlaceInput"
 import TextArea from "../../../app/common/form/TextArea"
@@ -34,12 +34,14 @@ const mapState = (state, ownProps) => {
 
   return {
     initialValues: event,
+    event,
   }
 }
 
 const actions = {
   createEvent,
   updateEvent,
+  cancelToggle,
 }
 
 const validate = combineValidators({
@@ -73,10 +75,12 @@ const EventForm = ({
   pristine,
   updateEvent,
   createEvent,
+  cancelToggle,
   change,
   handleSubmit,
   firestore,
   match,
+  event,
 }) => {
   const [cityLatLng, setCityLatLng] = useState({})
   const [venueLatLng, setVenueLatLng] = useState({})
@@ -195,6 +199,13 @@ const EventForm = ({
             >
               Cancel
             </Button>
+            <Button
+              type="button"
+              color={event.cancelled ? "green" : "red"}
+              floated="right"
+              content={event.cancelled ? "Reactivate event" : "Cancel event"}
+              onClick={() => cancelToggle(!event.cancelled, event.id)}
+            />
           </Form>
         </Segment>
       </Grid.Column>
