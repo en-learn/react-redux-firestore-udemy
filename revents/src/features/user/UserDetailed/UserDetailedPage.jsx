@@ -7,22 +7,29 @@ import UserDetailedPhotos from "./UserDetailedPhotos"
 import UserDetailedEvents from "./UserDetailedEvents"
 import { compose } from "redux"
 import { connect } from "react-redux"
-import { firestoreConnect } from "react-redux-firebase"
+import { firestoreConnect, isEmpty } from "react-redux-firebase"
+import { userDetailedQuery } from "../userQueries"
 
-const query = auth => [
-  {
-    collection: "users",
-    doc: auth.uid,
-    subcollections: [{ collection: "photos" }],
-    storeAs: "photos",
-  },
-]
+const mapState = (state, ownProps) => {
+  let userUid = null
+  let profile = {}
 
-const mapState = state => ({
-  auth: state.firebase.auth,
-  profile: state.firebase.profile,
-  photos: state.firestore.ordered.photos,
-})
+  if (ownProps.match.params.id === state.auth.uid) {
+    profile = state.firebase.profile
+  } else {
+    profile =
+      !isEmpty(state.firestore.ordered.profile) &&
+      state.firestore.ordered.profile[0]
+    userUid = ownProps.match.params.id
+  }
+
+  return {
+    userUid,
+    profile,
+    auth: state.firebase.auth,
+    photos: state.firestore.ordered.photos,
+  }
+}
 
 const UserDetailedPage = ({ profile, photos }) => {
   return (
@@ -38,5 +45,5 @@ const UserDetailedPage = ({ profile, photos }) => {
 
 export default compose(
   connect(mapState),
-  firestoreConnect(({ auth }) => query(auth)),
+  firestoreConnect((auth, userUid) => userDetailedQuery(auth, userUid)),
 )(UserDetailedPage)
