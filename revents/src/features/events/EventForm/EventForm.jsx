@@ -86,15 +86,19 @@ const EventForm = ({
 
   useEffect(() => {
     const fetchEvent = async () => {
-      const event = await firestore.get(`events/${match.params.id}`)
-      if (!event.exists) {
-        history.push("/events")
-        toastr.error("Sorry", "Event not found")
-      } else {
-        setVenueLatLng(event.data().venueLatLng)
-      }
+      // A better idea than using firestore.setListener directly would be to use the
+      // firestoreConnect HOC. We are only doing it this way to practice different ways
+      // of doing the same thing.
+      //
+      // Here, we have to manually handle the cleanup.
+      await firestore.setListener(`events/${match.params.id}`)
     }
     fetchEvent()
+
+    const cleanup = async () => {
+      await firestore.unsetListener(`events/${match.params.id}`)
+    }
+    return cleanup
   }, [firestore, match.params.id, history])
 
   const onFormSubmit = async values => {
