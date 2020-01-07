@@ -2,19 +2,22 @@ import React, { useEffect } from "react"
 import { connect } from "react-redux"
 import { Grid } from "semantic-ui-react"
 import { withFirestore } from "react-redux-firebase"
+import { toastr } from "react-redux-toastr"
 
 import EventDetailedHeader from "./EventDetailedHeader"
 import EventDetailedInfo from "./EventDetailedInfo"
 import EventDetailedChat from "./EventDetailedChat"
 import EventDetailedSidebar from "./EventDetailedSidebar"
 
-const mapStateToProps = (state, ownProps) => {
+const mapState = (state, ownProps) => {
   const eventId = ownProps.match.params.id
 
   let event = {}
 
-  if (eventId && state.events.length > 0) {
-    event = state.events.filter(event => event.id === eventId)[0]
+  const { events } = state.firestore.ordered
+
+  if (events && events.length > 0) {
+    event = events.filter(event => event.id === eventId)[0]
   }
 
   return {
@@ -22,27 +25,30 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const EventDetailedPage = ({ firestore, match }) => {
+const EventDetailedPage = ({ event, firestore, match, history }) => {
   useEffect(() => {
     const fetchEvent = async () => {
       const event = await firestore.get(`events/${match.params.id}`)
-      console.log(event)
+      if (!event.exists) {
+        history.push("/events")
+        toastr.error("Sorry", "Event not found")
+      }
     }
     fetchEvent()
-  }, [firestore, match.params.id])
+  }, [firestore, match.params.id, history])
 
   return (
     <Grid>
       <Grid.Column width={10}>
-        {/* <EventDetailedHeader event={event} /> */}
-        {/* <EventDetailedInfo event={event} /> */}
+        <EventDetailedHeader event={event} />
+        <EventDetailedInfo event={event} />
         <EventDetailedChat />
       </Grid.Column>
       <Grid.Column width={6}>
-        {/* <EventDetailedSidebar attendees={event.attendees} /> */}
+        <EventDetailedSidebar attendees={event.attendees} />
       </Grid.Column>
     </Grid>
   )
 }
 
-export default withFirestore(connect(mapStateToProps)(EventDetailedPage))
+export default withFirestore(connect(mapState)(EventDetailedPage))
