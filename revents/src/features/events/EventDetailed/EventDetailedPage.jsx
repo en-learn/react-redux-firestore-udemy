@@ -2,13 +2,13 @@ import React, { useEffect } from "react"
 import { connect } from "react-redux"
 import { Grid } from "semantic-ui-react"
 import { withFirestore } from "react-redux-firebase"
-import { toastr } from "react-redux-toastr"
 
 import { objectToArray } from "../../../app/common/util/helpers"
 import EventDetailedHeader from "./EventDetailedHeader"
 import EventDetailedInfo from "./EventDetailedInfo"
 import EventDetailedChat from "./EventDetailedChat"
 import EventDetailedSidebar from "./EventDetailedSidebar"
+import { goingToEvent } from "../../user/userActions"
 
 const mapState = (state, ownProps) => {
   const eventId = ownProps.match.params.id
@@ -27,17 +27,22 @@ const mapState = (state, ownProps) => {
   }
 }
 
-const EventDetailedPage = ({ event, firestore, match, history, auth }) => {
+const actions = {
+  goingToEvent,
+}
+
+const EventDetailedPage = ({ event, firestore, match, auth, goingToEvent }) => {
   useEffect(() => {
     const fetchEvent = async () => {
-      const event = await firestore.get(`events/${match.params.id}`)
-      if (!event.exists) {
-        history.push("/events")
-        toastr.error("Sorry", "Event not found")
-      }
+      await firestore.setListener(`events/${match.params.id}`)
     }
     fetchEvent()
-  }, [firestore, match.params.id, history])
+
+    const cleanup = async () => {
+      await firestore.unsetListener(`events/${match.params.id}`)
+    }
+    return cleanup
+  }, [firestore, match.params.id])
 
   const attendees = event && event.attendees && objectToArray(event.attendees)
   const isHost = event.hostUid === auth.uid
@@ -46,7 +51,12 @@ const EventDetailedPage = ({ event, firestore, match, history, auth }) => {
   return (
     <Grid>
       <Grid.Column width={10}>
-        <EventDetailedHeader event={event} isGoing={isGoing} isHost={isHost} />
+        <EventDetailedHeader
+          event={event}
+          isGoing={isGoing}
+          isHost={isHost}
+          goingToEvent={goingToEvent}
+        />
         <EventDetailedInfo event={event} />
         <EventDetailedChat />
       </Grid.Column>
@@ -57,4 +67,4 @@ const EventDetailedPage = ({ event, firestore, match, history, auth }) => {
   )
 }
 
-export default withFirestore(connect(mapState)(EventDetailedPage))
+export default withFirestore(connect(mapState, actions)(EventDetailedPage))
