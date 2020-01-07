@@ -1,8 +1,9 @@
 /* global google */
-import React, { Component } from "react"
+import React, { useState } from "react"
 
 import { connect } from "react-redux"
 import { reduxForm, Field } from "redux-form"
+import { withFirestore } from "react-redux-firebase"
 import { geocodeByAddress, getLatLng } from "react-places-autocomplete"
 import { Segment, Form, Button, Grid, Header } from "semantic-ui-react"
 import {
@@ -19,7 +20,7 @@ import TextArea from "../../../app/common/form/TextArea"
 import SelectInput from "../../../app/common/form/SelectInput"
 import DateInput from "../../../app/common/form/DateInput"
 
-const mapStateToProps = (state, ownProps) => {
+const mapState = (state, ownProps) => {
   const eventId = ownProps.match.params.id
 
   let event = {}
@@ -33,7 +34,7 @@ const mapStateToProps = (state, ownProps) => {
   }
 }
 
-const mapDispatchToProps = {
+const actions = {
   createEvent,
   updateEvent,
 }
@@ -61,135 +62,131 @@ const category = [
   { key: "travel", text: "Travel", value: "travel" },
 ]
 
-class EventForm extends Component {
-  state = {
-    cityLatLng: {},
-    venueLatLng: {},
-  }
+const EventForm = ({
+  history,
+  initialValues,
+  invalid,
+  submitting,
+  pristine,
+  updateEvent,
+  createEvent,
+  change,
+  handleSubmit,
+}) => {
+  const [cityLatLng, setCityLatLng] = useState({})
+  const [venueLatLng, setVenueLatLng] = useState({})
 
-  onFormSubmit = async values => {
-    values.venueLatLng = this.state.venueLatLng
+  const onFormSubmit = async values => {
+    values.venueLatLng = venueLatLng
     try {
-      if (this.props.initialValues.id) {
-        this.props.updateEvent(values)
-        this.props.history.push(`/events/${this.props.initialValues.id}`)
+      if (initialValues.id) {
+        updateEvent(values)
+        history.push(`/events/${initialValues.id}`)
       } else {
-        let createdEvent = await this.props.createEvent(values)
-        this.props.history.push(`/events/${createdEvent.id}`)
+        let createdEvent = await createEvent(values)
+        history.push(`/events/${createdEvent.id}`)
       }
     } catch (error) {
       console.log(error)
     }
   }
 
-  handleCitySelect = selectedCity => {
+  const handleCitySelect = selectedCity => {
     geocodeByAddress(selectedCity)
       .then(results => getLatLng(results[0]))
-      .then(latlng => {
-        this.setState({
-          cityLatLng: latlng,
-        })
-      })
+      .then(latlng => setCityLatLng(latlng))
       .then(() => {
-        this.props.change("city", selectedCity)
+        change("city", selectedCity)
       })
   }
 
-  handleVenueSelect = selectedVenue => {
+  const handleVenueSelect = selectedVenue => {
     geocodeByAddress(selectedVenue)
       .then(results => getLatLng(results[0]))
-      .then(latlng => {
-        this.setState({
-          venueLatLng: latlng,
-        })
-      })
+      .then(latlng => setVenueLatLng(latlng))
       .then(() => {
-        this.props.change("venue", selectedVenue)
+        change("venue", selectedVenue)
       })
   }
 
-  render() {
-    const { history, initialValues, invalid, submitting, pristine } = this.props
-    return (
-      <Grid>
-        <Grid.Column width={10}>
-          <Segment>
-            <Header sub color="teal" content="Event Details" />
-            <Form
-              onSubmit={this.props.handleSubmit(this.onFormSubmit)}
-              autoComplete="off"
-            >
-              <Field
-                name="title"
-                component={TextInput}
-                placeholder="Give your event a name"
-              />
-              <Field
-                name="category"
-                options={category}
-                component={SelectInput}
-                placeholder="What is your event about?"
-              />
-              <Field
-                name="description"
-                component={TextArea}
-                rows={3}
-                placeholder="Event Tell us about your event"
-              />
-              <Header sub color="teal" content="Event Location Details" />
-              <Field
-                name="city"
-                component={PlaceInput}
-                options={{ types: ["(cities)"] }}
-                onSelect={this.handleCitySelect}
-                placeholder="Event City"
-              />
-              <Field
-                name="venue"
-                component={PlaceInput}
-                options={{
-                  location: new google.maps.LatLng(this.state.cityLatLng),
-                  radius: 1000,
-                  types: ["establishment"],
-                }}
-                onSelect={this.handleVenueSelect}
-                placeholder="Event Venue"
-              />
-              <Field
-                name="date"
-                component={DateInput}
-                dateFormat="dd LLL yyyy h:mm a"
-                showTimeSelect
-                timeFormat="HH:mm"
-                placeholder="Event Date"
-              />
+  return (
+    <Grid>
+      <Grid.Column width={10}>
+        <Segment>
+          <Header sub color="teal" content="Event Details" />
+          <Form onSubmit={handleSubmit(onFormSubmit)} autoComplete="off">
+            <Field
+              name="title"
+              component={TextInput}
+              placeholder="Give your event a name"
+            />
+            <Field
+              name="category"
+              options={category}
+              component={SelectInput}
+              placeholder="What is your event about?"
+            />
+            <Field
+              name="description"
+              component={TextArea}
+              rows={3}
+              placeholder="Event Tell us about your event"
+            />
+            <Header sub color="teal" content="Event Location Details" />
+            <Field
+              name="city"
+              component={PlaceInput}
+              options={{ types: ["(cities)"] }}
+              onSelect={handleCitySelect}
+              placeholder="Event City"
+            />
+            <Field
+              name="venue"
+              component={PlaceInput}
+              options={{
+                location: new google.maps.LatLng(cityLatLng),
+                radius: 1000,
+                types: ["establishment"],
+              }}
+              onSelect={handleVenueSelect}
+              placeholder="Event Venue"
+            />
+            <Field
+              name="date"
+              component={DateInput}
+              dateFormat="dd LLL yyyy h:mm a"
+              showTimeSelect
+              timeFormat="HH:mm"
+              placeholder="Event Date"
+            />
 
-              <Button
-                disabled={invalid || submitting || pristine}
-                positive
-                type="submit"
-              >
-                Submit
-              </Button>
-              <Button
-                onClick={
-                  initialValues.id
-                    ? () => history.push(`/events/${initialValues.id}`)
-                    : () => history.push("/events")
-                }
-                type="button"
-              >
-                Cancel
-              </Button>
-            </Form>
-          </Segment>
-        </Grid.Column>
-      </Grid>
-    )
-  }
+            <Button
+              disabled={invalid || submitting || pristine}
+              positive
+              type="submit"
+            >
+              Submit
+            </Button>
+            <Button
+              onClick={
+                initialValues.id
+                  ? () => history.push(`/events/${initialValues.id}`)
+                  : () => history.push("/events")
+              }
+              type="button"
+            >
+              Cancel
+            </Button>
+          </Form>
+        </Segment>
+      </Grid.Column>
+    </Grid>
+  )
 }
 
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps,
-)(reduxForm({ form: "eventForm", validate })(EventForm))
+export default withFirestore(
+  connect(
+    mapState,
+    actions,
+  )(reduxForm({ form: "eventForm", validate })(EventForm)),
+)
