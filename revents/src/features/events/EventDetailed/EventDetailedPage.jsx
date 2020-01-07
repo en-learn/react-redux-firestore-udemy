@@ -8,7 +8,7 @@ import EventDetailedHeader from "./EventDetailedHeader"
 import EventDetailedInfo from "./EventDetailedInfo"
 import EventDetailedChat from "./EventDetailedChat"
 import EventDetailedSidebar from "./EventDetailedSidebar"
-import { goingToEvent } from "../../user/userActions"
+import { goingToEvent, cancelGoingToEvent } from "../../user/userActions"
 
 const mapState = (state, ownProps) => {
   const eventId = ownProps.match.params.id
@@ -29,9 +29,17 @@ const mapState = (state, ownProps) => {
 
 const actions = {
   goingToEvent,
+  cancelGoingToEvent,
 }
 
-const EventDetailedPage = ({ event, firestore, match, auth, goingToEvent }) => {
+const EventDetailedPage = ({
+  event,
+  firestore,
+  match,
+  auth,
+  goingToEvent,
+  cancelGoingToEvent,
+}) => {
   useEffect(() => {
     const fetchEvent = async () => {
       await firestore.setListener(`events/${match.params.id}`)
@@ -56,6 +64,7 @@ const EventDetailedPage = ({ event, firestore, match, auth, goingToEvent }) => {
           isGoing={isGoing}
           isHost={isHost}
           goingToEvent={goingToEvent}
+          cancelGoingToEvent={cancelGoingToEvent}
         />
         <EventDetailedInfo event={event} />
         <EventDetailedChat />
