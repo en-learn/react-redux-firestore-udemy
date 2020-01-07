@@ -1,5 +1,5 @@
 /* global google */
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 
 import { connect } from "react-redux"
 import { reduxForm, Field } from "redux-form"
@@ -12,6 +12,7 @@ import {
   isRequired,
   hasLengthGreaterThan,
 } from "revalidate"
+import { toastr } from "react-redux-toastr"
 
 import { createEvent, updateEvent } from "../eventActions"
 import TextInput from "../../../app/common/form/TextInput"
@@ -25,8 +26,10 @@ const mapState = (state, ownProps) => {
 
   let event = {}
 
-  if (eventId && state.events.length > 0) {
-    event = state.events.filter(event => event.id === eventId)[0]
+  const { events } = state.firestore.ordered
+
+  if (events && events.length > 0) {
+    event = events.filter(event => event.id === eventId)[0] || {}
   }
 
   return {
@@ -72,9 +75,24 @@ const EventForm = ({
   createEvent,
   change,
   handleSubmit,
+  firestore,
+  match,
 }) => {
   const [cityLatLng, setCityLatLng] = useState({})
   const [venueLatLng, setVenueLatLng] = useState({})
+
+  useEffect(() => {
+    const fetchEvent = async () => {
+      const event = await firestore.get(`events/${match.params.id}`)
+      if (!event.exists) {
+        history.push("/events")
+        toastr.error("Sorry", "Event not found")
+      } else {
+        setVenueLatLng(event.data().venueLatLng)
+      }
+    }
+    fetchEvent()
+  }, [firestore, match.params.id, history])
 
   const onFormSubmit = async values => {
     values.venueLatLng = venueLatLng
@@ -188,5 +206,9 @@ export default withFirestore(
   connect(
     mapState,
     actions,
-  )(reduxForm({ form: "eventForm", validate })(EventForm)),
+  )(
+    reduxForm({ form: "eventForm", validate, enableReinitialize: true })(
+      EventForm,
+    ),
+  ),
 )
