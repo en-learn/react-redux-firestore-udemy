@@ -1,21 +1,11 @@
-import React, { Component } from "react"
+import React from "react"
 import EventListItem from "./EventListItem"
 
-class EventList extends Component {
-  render() {
-    const { events, deleteEvent } = this.props
-    return (
-      <>
-        {events &&
-          events.map(event => (
-            <EventListItem
-              key={event.id}
-              event={event}
-              deleteEvent={deleteEvent}
-            />
-          ))}
-      </>
-    )
-  }
-}
+const EventList = ({ events }) => (
+  <>
+    {events &&
+      events.map(event => <EventListItem key={event.id} event={event} />)}
+  </>
+)
+
 export default EventList

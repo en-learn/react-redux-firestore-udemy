@@ -12,7 +12,6 @@ import {
   isRequired,
   hasLengthGreaterThan,
 } from "revalidate"
-import { toastr } from "react-redux-toastr"
 
 import { createEvent, updateEvent, cancelToggle } from "../eventActions"
 import TextInput from "../../../app/common/form/TextInput"
@@ -102,6 +101,9 @@ const EventForm = ({
     values.venueLatLng = venueLatLng
     try {
       if (initialValues.id) {
+        if (Object.keys(values.venueLatLng).length === 0)
+          values.venueLatLng = event.venueLatLng
+
         updateEvent(values)
         history.push(`/events/${initialValues.id}`)
       } else {
