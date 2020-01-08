@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useRef } from "react"
-import { Grid, Button } from "semantic-ui-react"
+import { Grid, Loader } from "semantic-ui-react"
 import { connect } from "react-redux"
 import { firestoreConnect } from "react-redux-firebase"
 import EventList from "../EventList/EventList"
@@ -56,18 +56,19 @@ const EventDashboard = ({ events, getEventsForDashboard, loading }) => {
   return (
     <Grid>
       <Grid.Column width={10}>
-        <EventList events={loadedEvents} />
-        <Button
+        <EventList
+          events={loadedEvents}
+          getNextEvents={getNextEvents}
           loading={loading}
-          onClick={getNextEvents}
-          disabled={!moreEvents}
-          content="More"
-          color="green"
-          floated="right"
+          moreEvents={moreEvents}
         />
       </Grid.Column>
       <Grid.Column width={6}>
         <EventActivity />
+      </Grid.Column>
+      <Grid.Column width={10}>
+        {" "}
+        <Loader active={loading} />{" "}
       </Grid.Column>
     </Grid>
   )
