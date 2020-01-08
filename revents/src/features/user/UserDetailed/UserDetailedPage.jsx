@@ -9,6 +9,7 @@ import { compose } from "redux"
 import { connect } from "react-redux"
 import { firestoreConnect, isEmpty } from "react-redux-firebase"
 import { userDetailedQuery } from "../userQueries"
+import LoadingComponent from "../../../app/layout/LoadingComponent"
 
 const mapState = (state, ownProps) => {
   let userUid = null
@@ -28,11 +29,14 @@ const mapState = (state, ownProps) => {
     profile,
     auth: state.firebase.auth,
     photos: state.firestore.ordered.photos,
+    requesting: state.firestore.status.requesting,
   }
 }
 
-const UserDetailedPage = ({ profile, photos, auth, match }) => {
+const UserDetailedPage = ({ profile, photos, auth, match, requesting }) => {
   const isCurrentUser = auth.uid === match.params.id
+  const loading = Object.values(requesting).some(a => a === true)
+  if (loading) return <LoadingComponent />
 
   return (
     <Grid>
