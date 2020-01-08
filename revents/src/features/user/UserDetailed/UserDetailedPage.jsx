@@ -31,12 +31,14 @@ const mapState = (state, ownProps) => {
   }
 }
 
-const UserDetailedPage = ({ profile, photos }) => {
+const UserDetailedPage = ({ profile, photos, auth, match }) => {
+  const isCurrentUser = auth.uid === match.params.id
+
   return (
     <Grid>
       <UserDetailedHeader profile={profile} />
       <UserDetailedDescription profile={profile} />
-      <UserDetailedSidebar />
+      <UserDetailedSidebar isCurrentUser={isCurrentUser} />
       {photos && photos.length > 0 && <UserDetailedPhotos photos={photos} />}
       <UserDetailedEvents />
     </Grid>

@@ -1,5 +1,4 @@
 export const userDetailedQuery = ({ auth, userUid }) => {
-  console.log(userUid)
   if (userUid !== null) {
     return [
       {
