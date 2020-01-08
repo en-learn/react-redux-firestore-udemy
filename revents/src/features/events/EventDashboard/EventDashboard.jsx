@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import { Grid, Button } from "semantic-ui-react"
 import { connect } from "react-redux"
 import { firestoreConnect } from "react-redux-firebase"
@@ -18,6 +18,10 @@ const actions = {
 
 const EventDashboard = ({ events, getEventsForDashboard, loading }) => {
   const [moreEvents, setMoreEvents] = useState(false)
+  const [loadingInitial, setLoadingInitial] = useState(true)
+  const [loadedEvents, setLoadedEvents] = useState([])
+
+  const didMountRef = useRef(false)
 
   useEffect(() => {
     async function getEvents() {
@@ -26,10 +30,17 @@ const EventDashboard = ({ events, getEventsForDashboard, loading }) => {
 
       if (next && next.docs && next.docs.length > 1) {
         setMoreEvents(true)
+        setLoadingInitial(false)
       }
     }
     getEvents()
   }, [getEventsForDashboard])
+
+  useEffect(() => {
+    if (didMountRef.current) {
+      setLoadedEvents(previousEvents => [...previousEvents, ...events])
+    } else didMountRef.current = true
+  }, [events])
 
   const getNextEvents = async () => {
     let lastEvent = events && events[events.length - 1]
@@ -41,12 +52,13 @@ const EventDashboard = ({ events, getEventsForDashboard, loading }) => {
     }
   }
 
-  if (loading) return <LoadingComponent />
+  if (loadingInitial) return <LoadingComponent />
   return (
     <Grid>
       <Grid.Column width={10}>
-        <EventList events={events} />
+        <EventList events={loadedEvents} />
         <Button
+          loading={loading}
           onClick={getNextEvents}
           disabled={!moreEvents}
           content="More"
