@@ -1,5 +1,12 @@
+import { FETCH_EVENTS } from "./eventConstants"
+import {
+  asyncActionStart,
+  asyncActionFinish,
+  asyncActionError,
+} from "../async/asyncActions"
 import { toastr } from "react-redux-toastr"
 import { createNewEvent } from "../../app/common/util/helpers"
+import firebase from "../../app/config/firebase"
 
 export const createEvent = event => {
   return async (dispatch, getState, { getFirestore, getFirebase }) => {
@@ -55,5 +62,26 @@ export const cancelToggle = (cancelled, eventId) => async (
     })
   } catch (error) {
     console.log(error)
+  }
+}
+
+export const getEventsForDashboard = () => async (dispatch, getState) => {
+  let today = new Date()
+  const firestore = firebase.firestore()
+  const eventsQuery = firestore.collection("events").where("date", ">=", today)
+  try {
+    dispatch(asyncActionStart())
+    let querySnap = await eventsQuery.get()
+    let events = []
+
+    for (let snap of querySnap.docs) {
+      let event = { ...snap.data(), id: snap.id }
+      events.push(event)
+    }
+    dispatch({ type: FETCH_EVENTS, payload: { events } })
+    dispatch(asyncActionFinish())
+  } catch (error) {
+    console.log(error)
+    dispatch(asyncActionError())
   }
 }
