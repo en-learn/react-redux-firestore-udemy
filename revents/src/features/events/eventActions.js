@@ -65,21 +65,51 @@ export const cancelToggle = (cancelled, eventId) => async (
   }
 }
 
-export const getEventsForDashboard = () => async (dispatch, getState) => {
+export const getEventsForDashboard = lastEvent => async (
+  dispatch,
+  getState,
+) => {
   let today = new Date()
   const firestore = firebase.firestore()
-  const eventsQuery = firestore.collection("events").where("date", ">=", today)
+  const eventsRef = firestore.collection("events")
   try {
     dispatch(asyncActionStart())
-    let querySnap = await eventsQuery.get()
+    let startAfter =
+      lastEvent &&
+      (await firestore
+        .collection("events")
+        .doc(lastEvent.id)
+        .get())
+    let query
+
+    lastEvent
+      ? (query = eventsRef
+          .where("date", ">=", today)
+          .orderBy("date")
+          .startAfter(startAfter)
+          .limit(2))
+      : (query = eventsRef
+          .where("date", ">=", today)
+          .orderBy("date")
+          .limit(2))
+
+    let querySnap = await query.get()
+
+    if (querySnap.docs.length === 0) {
+      dispatch(asyncActionFinish())
+      return
+    }
+
     let events = []
 
     for (let snap of querySnap.docs) {
       let event = { ...snap.data(), id: snap.id }
       events.push(event)
     }
+
     dispatch({ type: FETCH_EVENTS, payload: { events } })
     dispatch(asyncActionFinish())
+    return querySnap
   } catch (error) {
     console.log(error)
     dispatch(asyncActionError())
