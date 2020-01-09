@@ -9,7 +9,7 @@ const EventList = ({ events, getNextEvents, loading, moreEvents }) => (
         pageStart={0}
         loadMore={getNextEvents}
         hasMore={!loading && moreEvents}
-        initalLoad={false}
+        initialLoad={false}
       >
         {events &&
           events.map(event => <EventListItem key={event.id} event={event} />)}

@@ -69,7 +69,7 @@ export const getEventsForDashboard = lastEvent => async (
   dispatch,
   getState,
 ) => {
-  let today = new Date()
+  // let today = new Date()
   const firestore = firebase.firestore()
   const eventsRef = firestore.collection("events")
   try {
