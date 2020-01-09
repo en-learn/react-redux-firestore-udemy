@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import { connect } from "react-redux"
 import { Grid } from "semantic-ui-react"
-import { withFirestore, firebaseConnect } from "react-redux-firebase"
+import { withFirestore, firebaseConnect, isEmpty } from "react-redux-firebase"
 import { compose } from "redux"
 import { objectToArray } from "../../../app/common/util/helpers"
 import EventDetailedHeader from "./EventDetailedHeader"
@@ -25,6 +25,9 @@ const mapState = (state, ownProps) => {
   return {
     event,
     auth: state.firebase.auth,
+    eventChat:
+      !isEmpty(state.firebase.data.event_chat) &&
+      objectToArray(state.firebase.data.event_chat[ownProps.match.params.id]),
   }
 }
 
@@ -42,6 +45,7 @@ const EventDetailedPage = ({
   goingToEvent,
   cancelGoingToEvent,
   addEventComment,
+  eventChat,
 }) => {
   useEffect(() => {
     const fetchEvent = async () => {
@@ -71,6 +75,7 @@ const EventDetailedPage = ({
         />
         <EventDetailedInfo event={event} />
         <EventDetailedChat
+          eventChat={eventChat}
           addEventComment={addEventComment}
           eventId={event.id}
         />
