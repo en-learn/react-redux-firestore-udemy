@@ -1,14 +1,15 @@
 import React, { useEffect } from "react"
 import { connect } from "react-redux"
 import { Grid } from "semantic-ui-react"
-import { withFirestore } from "react-redux-firebase"
-
+import { withFirestore, firebaseConnect } from "react-redux-firebase"
+import { compose } from "redux"
 import { objectToArray } from "../../../app/common/util/helpers"
 import EventDetailedHeader from "./EventDetailedHeader"
 import EventDetailedInfo from "./EventDetailedInfo"
 import EventDetailedChat from "./EventDetailedChat"
 import EventDetailedSidebar from "./EventDetailedSidebar"
 import { goingToEvent, cancelGoingToEvent } from "../../user/userActions"
+import { addEventComment } from "../eventActions"
 
 const mapState = (state, ownProps) => {
   const eventId = ownProps.match.params.id
@@ -30,6 +31,7 @@ const mapState = (state, ownProps) => {
 const actions = {
   goingToEvent,
   cancelGoingToEvent,
+  addEventComment,
 }
 
 const EventDetailedPage = ({
@@ -39,6 +41,7 @@ const EventDetailedPage = ({
   auth,
   goingToEvent,
   cancelGoingToEvent,
+  addEventComment,
 }) => {
   useEffect(() => {
     const fetchEvent = async () => {
@@ -67,7 +70,10 @@ const EventDetailedPage = ({
           cancelGoingToEvent={cancelGoingToEvent}
         />
         <EventDetailedInfo event={event} />
-        <EventDetailedChat />
+        <EventDetailedChat
+          addEventComment={addEventComment}
+          eventId={event.id}
+        />
       </Grid.Column>
       <Grid.Column width={6}>
         <EventDetailedSidebar attendees={attendees} />
@@ -76,4 +82,8 @@ const EventDetailedPage = ({
   )
 }
 
-export default withFirestore(connect(mapState, actions)(EventDetailedPage))
+export default compose(
+  withFirestore,
+  connect(mapState, actions),
+  firebaseConnect(props => [`event_chat/${props.match.params.id}`]),
+)(EventDetailedPage)
