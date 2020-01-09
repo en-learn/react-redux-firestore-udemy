@@ -8,10 +8,12 @@ const EventDetailedChatForm = ({
   eventId,
   reset,
   handleSubmit,
+  closeForm,
 }) => {
   const handleCommentSubmit = values => {
     addEventComment(eventId, values)
     reset()
+    closeForm()
   }
   return (
     <Form onSubmit={handleSubmit(handleCommentSubmit)}>
@@ -21,4 +23,4 @@ const EventDetailedChatForm = ({
   )
 }
 
-export default reduxForm({ form: "eventChat" })(EventDetailedChatForm)
+export default reduxForm({ Fields: "comment" })(EventDetailedChatForm)

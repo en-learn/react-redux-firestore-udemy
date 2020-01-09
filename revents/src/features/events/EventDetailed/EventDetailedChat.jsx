@@ -6,13 +6,16 @@ import { formatDistance } from "date-fns"
 
 const EventDetailedChat = ({ addEventComment, eventId, eventChat }) => {
   const [showReplyForm, setShowReplyForm] = useState(false)
+  const [selectedCommentId, setSelectedCommentId] = useState(null)
 
-  const handleOpenReplyForm = () => {
+  const handleOpenReplyForm = id => () => {
     setShowReplyForm(true)
+    setSelectedCommentId(id)
   }
 
   const handleCloseReplyForm = () => {
     setShowReplyForm(false)
+    setSelectedCommentId(null)
   }
 
   return (
@@ -42,13 +45,15 @@ const EventDetailedChat = ({ addEventComment, eventId, eventChat }) => {
                   </Comment.Metadata>
                   <Comment.Text>{comment.text}</Comment.Text>
                   <Comment.Actions>
-                    <Comment.Action onClick={handleOpenReplyForm}>
+                    <Comment.Action onClick={handleOpenReplyForm(comment.id)}>
                       Reply
                     </Comment.Action>
-                    {showReplyForm && (
+                    {showReplyForm && selectedCommentId === comment.id && (
                       <EventDetailedChatForm
                         addEventComment={addEventComment}
                         eventId={eventId}
+                        form={`reply_${comment.id}`}
+                        closeForm={handleCloseReplyForm}
                       />
                     )}
                   </Comment.Actions>
@@ -59,6 +64,7 @@ const EventDetailedChat = ({ addEventComment, eventId, eventChat }) => {
         <EventDetailedChatForm
           addEventComment={addEventComment}
           eventId={eventId}
+          form={"newComment"}
         />
       </Segment>
     </>
