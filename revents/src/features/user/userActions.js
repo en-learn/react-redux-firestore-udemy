@@ -6,6 +6,7 @@ import {
 } from "../async/asyncActions"
 import cuid from "cuid"
 import firebase from "../../app/config/firebase"
+import { FETCH_EVENTS } from "../events/eventConstants"
 
 export const updateProfile = user => async (
   dispatch,
@@ -203,7 +204,18 @@ export const getUserEvents = (userUid, activeTab) => async (
 
   try {
     let querySnap = await query.get()
-    console.log(querySnap)
+    let events = []
+
+    for (let doc of querySnap.docs) {
+      let evt = await firestore
+        .collection("events")
+        .doc(doc.data().eventId)
+        .get()
+      events.push({ ...evt.data(), id: evt.id })
+    }
+
+    dispatch({ type: FETCH_EVENTS, payload: { events } })
+
     dispatch(asyncActionFinish())
   } catch (error) {
     console.log(error)

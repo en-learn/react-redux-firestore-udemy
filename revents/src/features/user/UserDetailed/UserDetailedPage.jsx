@@ -60,7 +60,7 @@ const UserDetailedPage = ({
 
     // Or as an IIFE
     ;(async () => {
-      let events = await getUserEvents(userUid, 3)
+      let events = await getUserEvents(userUid)
       console.log(events)
     })()
   }, [userUid, getUserEvents])
