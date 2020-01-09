@@ -28,6 +28,8 @@ const mapState = (state, ownProps) => {
   return {
     userUid,
     profile,
+    events: state.events,
+    eventsLoading: state.async.loading,
     auth: state.firebase.auth,
     photos: state.firestore.ordered.photos,
     requesting: state.firestore.status.requesting,
@@ -39,6 +41,8 @@ const actions = {
 }
 
 const UserDetailedPage = ({
+  events,
+  eventsLoading,
   userUid,
   profile,
   photos,
@@ -73,7 +77,7 @@ const UserDetailedPage = ({
       <UserDetailedDescription profile={profile} />
       <UserDetailedSidebar isCurrentUser={isCurrentUser} />
       {photos && photos.length > 0 && <UserDetailedPhotos photos={photos} />}
-      <UserDetailedEvents />
+      <UserDetailedEvents events={events} eventsLoading={eventsLoading} />
     </Grid>
   )
 }
