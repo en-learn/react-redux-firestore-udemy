@@ -3,7 +3,7 @@ import { connect } from "react-redux"
 import { Grid } from "semantic-ui-react"
 import { withFirestore, firebaseConnect, isEmpty } from "react-redux-firebase"
 import { compose } from "redux"
-import { objectToArray } from "../../../app/common/util/helpers"
+import { objectToArray, createDataTree } from "../../../app/common/util/helpers"
 import EventDetailedHeader from "./EventDetailedHeader"
 import EventDetailedInfo from "./EventDetailedInfo"
 import EventDetailedChat from "./EventDetailedChat"
@@ -62,6 +62,7 @@ const EventDetailedPage = ({
   const attendees = event && event.attendees && objectToArray(event.attendees)
   const isHost = event.hostUid === auth.uid
   const isGoing = attendees && attendees.some(a => a.id === auth.uid)
+  const chatTree = !isEmpty(eventChat) && createDataTree(eventChat)
 
   return (
     <Grid>
@@ -75,7 +76,7 @@ const EventDetailedPage = ({
         />
         <EventDetailedInfo event={event} />
         <EventDetailedChat
-          eventChat={eventChat}
+          eventChat={chatTree}
           addEventComment={addEventComment}
           eventId={event.id}
         />
