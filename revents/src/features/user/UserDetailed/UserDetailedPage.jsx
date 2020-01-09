@@ -69,6 +69,10 @@ const UserDetailedPage = ({
     })()
   }, [userUid, getUserEvents])
 
+  const changeTab = (e, data) => {
+    getUserEvents(userUid, data.activeIndex)
+  }
+
   if (loading) return <LoadingComponent />
 
   return (
@@ -77,7 +81,11 @@ const UserDetailedPage = ({
       <UserDetailedDescription profile={profile} />
       <UserDetailedSidebar isCurrentUser={isCurrentUser} />
       {photos && photos.length > 0 && <UserDetailedPhotos photos={photos} />}
-      <UserDetailedEvents events={events} eventsLoading={eventsLoading} />
+      <UserDetailedEvents
+        events={events}
+        eventsLoading={eventsLoading}
+        changeTab={changeTab}
+      />
     </Grid>
   )
 }
