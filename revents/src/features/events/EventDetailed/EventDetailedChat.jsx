@@ -54,6 +54,7 @@ const EventDetailedChat = ({ addEventComment, eventId, eventChat }) => {
                         eventId={eventId}
                         form={`reply_${comment.id}`}
                         closeForm={handleCloseReplyForm}
+                        parentId={comment.id}
                       />
                     )}
                   </Comment.Actions>
@@ -65,6 +66,7 @@ const EventDetailedChat = ({ addEventComment, eventId, eventChat }) => {
           addEventComment={addEventComment}
           eventId={eventId}
           form={"newComment"}
+          parentId={0}
         />
       </Segment>
     </>

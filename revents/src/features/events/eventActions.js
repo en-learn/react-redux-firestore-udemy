@@ -116,7 +116,7 @@ export const getEventsForDashboard = lastEvent => async (
   }
 }
 
-export const addEventComment = (eventId, { comment }) => async (
+export const addEventComment = (eventId, { comment }, parentId) => async (
   dispatch,
   getState,
   { getFirebase },
@@ -130,6 +130,7 @@ export const addEventComment = (eventId, { comment }) => async (
     uid: user.uid,
     text: comment,
     date: Date.now(),
+    parentId,
   }
 
   try {

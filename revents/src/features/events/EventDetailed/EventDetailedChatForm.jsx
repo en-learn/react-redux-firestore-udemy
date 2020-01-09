@@ -9,11 +9,12 @@ const EventDetailedChatForm = ({
   reset,
   handleSubmit,
   closeForm,
+  parentId,
 }) => {
   const handleCommentSubmit = values => {
-    addEventComment(eventId, values)
+    addEventComment(eventId, values, parentId)
     reset()
-    closeForm()
+    if (parentId !== 0) closeForm()
   }
   return (
     <Form onSubmit={handleSubmit(handleCommentSubmit)}>
