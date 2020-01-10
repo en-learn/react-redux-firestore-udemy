@@ -10,6 +10,7 @@ import firebase from "../../app/config/firebase"
 
 export const createEvent = event => {
   return async (dispatch, getState, { getFirestore, getFirebase }) => {
+    dispatch(asyncActionStart())
     const firestore = getFirestore()
     const firebase = getFirebase()
     const user = firebase.auth().currentUser
@@ -25,8 +26,10 @@ export const createEvent = event => {
         host: true,
       })
       toastr.success("Success!", "Event has been created")
+      dispatch(asyncActionFinish())
       return createdEvent
     } catch (error) {
+      dispatch(asyncActionError())
       toastr.error("Oops", "Something went wrong")
     }
   }
@@ -34,11 +37,14 @@ export const createEvent = event => {
 
 export const updateEvent = event => {
   return async (dispatch, getState, { getFirestore }) => {
+    dispatch(asyncActionStart())
     const firestore = getFirestore()
     try {
       await firestore.update(`events/${event.id}`, event)
+      dispatch(asyncActionFinish())
       toastr.success("Success!", "Event has been updated")
     } catch (error) {
+      dispatch(asyncActionError())
       toastr.error("Oops", "Something went wrong")
     }
   }

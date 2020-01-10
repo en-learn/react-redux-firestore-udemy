@@ -34,6 +34,7 @@ const mapState = (state, ownProps) => {
   return {
     initialValues: event,
     event,
+    loading: state.async.loading,
   }
 }
 
@@ -80,6 +81,7 @@ const EventForm = ({
   firestore,
   match,
   event,
+  loading,
 }) => {
   const [cityLatLng, setCityLatLng] = useState({})
   const [venueLatLng, setVenueLatLng] = useState({})
@@ -189,6 +191,7 @@ const EventForm = ({
             />
 
             <Button
+              loading={loading}
               disabled={invalid || submitting || pristine}
               positive
               type="submit"
