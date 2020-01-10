@@ -20,10 +20,7 @@ const routes = props => {
       <Container className="main">
         <Switch key={props.location.key}>
           <Route exact path="/events" component={EventDashboard} />
-          <Route
-            path="/events/:id"
-            component={UserIsAuthenticated(EventDetailedPage)}
-          />
+          <Route path="/events/:id" component={EventDetailedPage} />
           <Route
             exact
             path="/people"
