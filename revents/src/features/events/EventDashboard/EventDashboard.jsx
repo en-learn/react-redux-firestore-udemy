@@ -7,16 +7,30 @@ import { getEventsForDashboard } from "../eventActions"
 import LoadingComponent from "../../../app/layout/LoadingComponent"
 import EventActivity from "../EventActivity/EventActivity"
 
+const query = [
+  {
+    collection: "activity",
+    orderBy: ["timestamp", "desc"],
+    limit: 5,
+  },
+]
+
 const mapState = state => ({
   events: state.events,
   loading: state.async.loading,
+  activities: state.firestore.ordered.activity,
 })
 
 const actions = {
   getEventsForDashboard,
 }
 
-const EventDashboard = ({ events, getEventsForDashboard, loading }) => {
+const EventDashboard = ({
+  events,
+  getEventsForDashboard,
+  loading,
+  activities,
+}) => {
   const [moreEvents, setMoreEvents] = useState(false)
   const [loadingInitial, setLoadingInitial] = useState(true)
   const [loadedEvents, setLoadedEvents] = useState([])
@@ -64,7 +78,7 @@ const EventDashboard = ({ events, getEventsForDashboard, loading }) => {
         />
       </Grid.Column>
       <Grid.Column width={6}>
-        <EventActivity />
+        <EventActivity activities={activities} />
       </Grid.Column>
       <Grid.Column width={10}>
         {" "}
@@ -77,4 +91,4 @@ const EventDashboard = ({ events, getEventsForDashboard, loading }) => {
 export default connect(
   mapState,
   actions,
-)(firestoreConnect([{ collection: "events" }])(EventDashboard))
+)(firestoreConnect(query)(EventDashboard))
