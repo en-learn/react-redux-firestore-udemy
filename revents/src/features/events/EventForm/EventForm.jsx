@@ -110,7 +110,7 @@ const EventForm = ({
         if (Object.keys(values.venueLatLng).length === 0)
           values.venueLatLng = event.venueLatLng
 
-        updateEvent(values)
+        await updateEvent(values)
         history.push(`/events/${initialValues.id}`)
       } else {
         let createdEvent = await createEvent(values)
@@ -205,6 +205,7 @@ const EventForm = ({
                   : () => history.push("/events")
               }
               type="button"
+              disabled={loading}
             >
               Cancel
             </Button>
