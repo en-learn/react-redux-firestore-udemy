@@ -25,6 +25,7 @@ const mapState = (state, ownProps) => {
   return {
     event,
     auth: state.firebase.auth,
+    loading: state.async.loading,
     eventChat:
       !isEmpty(state.firebase.data.event_chat) &&
       objectToArray(state.firebase.data.event_chat[ownProps.match.params.id]),
@@ -46,6 +47,7 @@ const EventDetailedPage = ({
   cancelGoingToEvent,
   addEventComment,
   eventChat,
+  loading,
 }) => {
   useEffect(() => {
     const fetchEvent = async () => {
@@ -73,6 +75,7 @@ const EventDetailedPage = ({
           isHost={isHost}
           goingToEvent={goingToEvent}
           cancelGoingToEvent={cancelGoingToEvent}
+          loading={loading}
         />
         <EventDetailedInfo event={event} />
         <EventDetailedChat
