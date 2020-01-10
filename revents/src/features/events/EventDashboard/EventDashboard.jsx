@@ -31,6 +31,8 @@ const EventDashboard = ({
   loading,
   activities,
 }) => {
+  const contextRef = useRef(null)
+
   const [moreEvents, setMoreEvents] = useState(false)
   const [loadingInitial, setLoadingInitial] = useState(true)
   const [loadedEvents, setLoadedEvents] = useState([])
@@ -40,7 +42,6 @@ const EventDashboard = ({
   useEffect(() => {
     async function getEvents() {
       let next = await getEventsForDashboard()
-      console.log(next)
 
       if (next && next.docs && next.docs.length > 1) {
         setMoreEvents(true)
@@ -58,9 +59,7 @@ const EventDashboard = ({
 
   const getNextEvents = async () => {
     let lastEvent = events && events[events.length - 1]
-    console.log(lastEvent)
     let next = await getEventsForDashboard(lastEvent)
-    console.log(next)
     if (next && next.docs && next.docs.length <= 1) {
       setMoreEvents(false)
     }
@@ -70,15 +69,17 @@ const EventDashboard = ({
   return (
     <Grid>
       <Grid.Column width={10}>
-        <EventList
-          events={loadedEvents}
-          getNextEvents={getNextEvents}
-          loading={loading}
-          moreEvents={moreEvents}
-        />
+        <div ref={contextRef}>
+          <EventList
+            events={loadedEvents}
+            getNextEvents={getNextEvents}
+            loading={loading}
+            moreEvents={moreEvents}
+          />
+        </div>
       </Grid.Column>
       <Grid.Column width={6}>
-        <EventActivity activities={activities} />
+        <EventActivity activities={activities} contextRef={contextRef} />
       </Grid.Column>
       <Grid.Column width={10}>
         {" "}
