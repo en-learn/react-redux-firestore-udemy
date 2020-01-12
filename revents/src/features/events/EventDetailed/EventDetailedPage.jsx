@@ -68,7 +68,12 @@ const EventDetailedPage = ({
     return cleanup
   }, [firestore, match.params.id])
 
-  const attendees = event && event.attendees && objectToArray(event.attendees)
+  const attendees =
+    event &&
+    event.attendees &&
+    objectToArray(event.attendees).sort(
+      (a, b) => a.joinDate.toDate() - b.joinDate.toDate(),
+    )
   const isHost = event.hostUid === auth.uid
   const isGoing = attendees && attendees.some(a => a.id === auth.uid)
   const chatTree = !isEmpty(eventChat) && createDataTree(eventChat)
