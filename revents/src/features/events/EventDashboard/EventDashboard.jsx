@@ -66,6 +66,7 @@ const EventDashboard = ({
   }
 
   if (loadingInitial) return <LoadingComponent />
+
   return (
     <Grid>
       <Grid.Column width={10}>

@@ -11,6 +11,7 @@ import SettingsDashboard from "../../features/user/Settings/SettingsDashboard"
 import EventsForm from "../../features/events/EventForm/EventForm"
 import TestComponent from "../../features/testarea/TestComponent"
 import ModalManager from "../../features/modals/ModalManager"
+import NotFound from "./NotFound"
 import { UserIsAuthenticated } from "../../features/auth/authWrapper"
 
 const routes = props => {
@@ -39,6 +40,7 @@ const routes = props => {
             component={UserIsAuthenticated(EventsForm)}
           />
           <Route path="/test" component={TestComponent} />
+          <Route component={NotFound} />
         </Switch>{" "}
       </Container>
     </>

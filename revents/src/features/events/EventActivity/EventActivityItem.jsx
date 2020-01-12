@@ -17,7 +17,7 @@ class EventActivityItem extends Component {
               {activity.hostedBy}
             </Feed.User>{" "}
             is hosting{" "}
-            <Link to={{ pathname: "/event/" + activity.eventId }}>
+            <Link to={{ pathname: "/events/" + activity.eventId }}>
               {activity.title}
             </Link>
           </div>
@@ -33,7 +33,7 @@ class EventActivityItem extends Component {
               {activity.hostedBy}
             </Feed.User>{" "}
             has cancelled{" "}
-            <Link to={{ pathname: "/event/" + activity.eventId }}>
+            <Link to={{ pathname: "/events/" + activity.eventId }}>
               {activity.title}
             </Link>
           </div>
