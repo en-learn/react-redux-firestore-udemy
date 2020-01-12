@@ -18,7 +18,7 @@ const UserDetailedEvents = ({ events, eventsLoading, changeTab }) => {
 
         <Tab
           onTabChange={(e, data) => changeTab(e, data)}
-          active
+          active="true"
           panes={panes}
           menu={{ secondary: true, pointing: true }}
         />

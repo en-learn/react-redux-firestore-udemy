@@ -28,7 +28,7 @@ const mapState = (state, ownProps) => {
   return {
     userUid,
     profile,
-    events: state.events,
+    events: state.events.userEvents,
     eventsLoading: state.async.loading,
     auth: state.firebase.auth,
     photos: state.firestore.ordered.photos,
@@ -58,7 +58,6 @@ const UserDetailedPage = ({
     // Write the data fatching as an async named function...
     // async function fetchEvents() {
     //   let events = await getUserEvents(userUid)
-    //   console.log(events)
     // }
     // fetchEvents()
 
